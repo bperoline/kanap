@@ -70,7 +70,26 @@ function afficherProduit(unProduit) {
         couleurItems.insertAdjacentHTML("beforeend", `
         <option value="${couleur}">${couleur}</option>
         `)
-    }// pour chaque couleur precente pour mon produit, ajoute une/des option avec comme valeur la couleur
+    }// pour chaque couleur presente pour mon produit, ajoute une/des option avec comme valeur la couleur
+
+}
+
+function ajoutPanier() {
+    let id = recupererId()
+    let quantite = document.querySelector("#quantity").value
+    let couleur = document.querySelector("#colors").value
+
+    let panier = [id, quantite, couleur]
+
+    let panierSauvegarder = localStorage.getItem(`${id}-${couleur}`)
+    let tableau = JSON.parse(panierSauvegarder)
+
+    if (tableau === null) {
+        localStorage.setItem(`${id}-${couleur}`, JSON.stringify(panier))  // sauvegarder dans le localStorage notre produit avec son id sa couleur et sa quantité
+    } else {
+        tableau[1] = Number(tableau[1]) + Number(quantite) // modifier la quantité de tableau[1] en ajoutant la valeur de quantité à la valeur déjà enregistrée
+        localStorage.setItem(`${id}-${couleur}`, JSON.stringify(tableau))
+    }
 
 }
 
