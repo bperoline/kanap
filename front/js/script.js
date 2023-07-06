@@ -1,7 +1,7 @@
 async function init() {
 
     let produits = await recupererProduits();
-    /*console.log(produits);*/
+
     afficherProduit(produits);
 }
 

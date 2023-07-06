@@ -1,10 +1,8 @@
 async function init() {
 
     let produitId = recupererId(); // reception de l'id du produit
-    /*console.log(produitId)*/
 
     let produit = await recupererProduit(produitId); //recuperation des caracteristiques du produit grace a son id precedement recuperé
-    /*console.log(produit)*/
 
     afficherProduit(produit)
 
@@ -74,22 +72,24 @@ function afficherProduit(unProduit) {
 
 }
 
+// ajouter des produits au panier
 function ajoutPanier() {
-    let id = recupererId()
-    let quantite = document.querySelector("#quantity").value
-    let couleur = document.querySelector("#colors").value
+    let id = recupererId() // recuperer l'id
+    let quantite = document.querySelector("#quantity").value // cherche la quantité dans le doc
+    let couleur = document.querySelector("#colors").value // cherche la couleur dans le doc
 
-    let panier = [id, quantite, couleur]
+    let panier = [id, quantite, couleur] // panier est un tableau contenant id + quantité + couleur
 
-    let panierSauvegarder = localStorage.getItem(`${id}-${couleur}`)
-    let tableau = JSON.parse(panierSauvegarder)
+    let panierSauvegarder = localStorage.getItem(`${id}-${couleur}`) // recupere dans le local de stockage l'element qui porte comme nom la concatenation de l'id et de la couleur, c'est le panier qui doit etre sauvegarder dans le local
+    let donnePanier = JSON.parse(panierSauvegarder) // met paniersauvegarder sous forme de tableau, et appelle le donnépanier
 
-    if (tableau === null) {
+    //si  donnépanier n'as pas de valeur alors enregistre sous forme de chaine de caractere le panier, il sappellera dans le local par la concatenation id+ couleur
+    if (donnePanier === null) {
         localStorage.setItem(`${id}-${couleur}`, JSON.stringify(panier))  // sauvegarder dans le localStorage notre produit avec son id sa couleur et sa quantité
     } else {
-        tableau[1] = Number(tableau[1]) + Number(quantite) // modifier la quantité de tableau[1] en ajoutant la valeur de quantité à la valeur déjà enregistrée
-        localStorage.setItem(`${id}-${couleur}`, JSON.stringify(tableau))
-    }
+        donnePanier[1] = Number(donnePanier[1]) + Number(quantite) // modifier la quantité de donnépanier[1] en ajoutant la valeur de quantité à la valeur déjà enregistrée
+        localStorage.setItem(`${id}-${couleur}`, JSON.stringify(donnePanier))
+    } // sinon modifie la quantite de donnépanier(1) en ajoutant la valeur a la valeur deja enregistré. et enregistre les données de donnepanier sous chaine de caractere dans le local avec la concatenation id+couleur
 
 }
 
