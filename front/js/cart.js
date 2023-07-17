@@ -1,6 +1,29 @@
 async function init() {
     recuperePanier()
 
+    window.onload = (event) => {
+        quantitePrixTotal()
+
+        let changementQuantite = document.querySelectorAll(".itemQuantity")
+        changementQuantite.forEach((item) => {
+            item.addEventListener('change', (event) => {
+                let quantite = event.target.querySelector(".itemQuantity")
+                let parent = quantite.closest("[data-id]")
+                let id = parent.getAttribute("data-id")
+                let color = parent.getAttribute("data-color")
+
+                let donneTableau = [id, quantite.value, color]
+
+
+                //majDomLocalStorage(event)
+                console.log(quantite)
+            }
+            )
+        }
+        )
+
+    }
+
 
 }
 
@@ -42,7 +65,7 @@ async function afficherPanier(unpanier) {
                 <div class="cart__item__content__description">
                     <h2>${produit.name}</h2>
                         <p>${unpanier[2]}</p>
-                        <p>${produit.price} €</p>
+                        <p class="prixProduit">${produit.price} €</p>
                     </div>
                 <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
@@ -57,3 +80,51 @@ async function afficherPanier(unpanier) {
         </article>
     `)
 }
+
+function quantitePrixTotal() {
+
+    let totalProduit = document.querySelectorAll(".itemQuantity")
+    let qttTotalProduit = 0
+    for (let quantite of totalProduit) {
+        qttTotalProduit = Number(qttTotalProduit) + Number(quantite.value)
+    }
+
+
+    let produitDuPanier = document.querySelectorAll(".cart__item")
+    let qttTotalPrix = 0
+    for (let produit of produitDuPanier) {
+        let qttProduit = produit.querySelector(".itemQuantity").value
+
+        let regex = /[0-9]+/g
+        let prix = produit.querySelector(".prixProduit").textContent.match(regex)
+
+        qttTotalPrix = qttTotalPrix + (qttProduit * Number(prix))
+
+    }
+
+    let cartPrice = document.querySelector(".cart__price")
+    cartPrice.insertAdjacentHTML("beforeend", `
+        <p>Total (<span id="totalQuantity">${qttTotalProduit}</span> articles) : <span id="totalPrice">${qttTotalPrix}</span>€</p>
+    `)
+
+}
+
+/*function majDomLocalStorage(evenement) {
+
+    let quantite = document.querySelector(".itemQuantity")
+    let parent = quantite.closest("[data-id]")
+    let id = parent.getAttribute("data-id")
+    let color = parent.getAttribute("data-color")
+
+    let donneTableau = [id, quantite.value, color]
+
+
+    //localStorage.setItem(`${id}-${color}`, JSON.stringify(donneTableau))
+
+
+}*/
+
+
+
+
+
