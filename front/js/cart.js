@@ -11,10 +11,19 @@ async function init() {
 
                 majDomQttPrix()
                 quantitePrixTotal()
-            }
-            )
-        }
-        )
+            })
+        })
+
+        let suppression = document.querySelectorAll(".deleteItem")
+        suppression.forEach((item) => {
+            item.addEventListener('click', (event) => {
+                suppLigneCommande(event)
+
+                majDomQttPrix()
+                quantitePrixTotal()
+            })
+        })
+
 
     }
 
@@ -123,6 +132,19 @@ function majDomQttPrix() {
 
 }
 
+function suppLigneCommande(evenement) {
+
+    let cible = evenement.target
+
+    let article = cible.closest("[data-id]")
+    let id = article.getAttribute("data-id")
+    let color = article.getAttribute("data-color")
+
+    localStorage.removeItem(`${id}-${color}`)
+
+    article.remove()
+
+}
 
 
 
