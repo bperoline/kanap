@@ -7,16 +7,10 @@ async function init() {
         let changementQuantite = document.querySelectorAll(".itemQuantity")
         changementQuantite.forEach((item) => {
             item.addEventListener('change', (event) => {
-                let quantite = event.target.querySelector(".itemQuantity")
-                let parent = quantite.closest("[data-id]")
-                let id = parent.getAttribute("data-id")
-                let color = parent.getAttribute("data-color")
+                majDomLocalStorage(event)
 
-                let donneTableau = [id, quantite.value, color]
-
-
-                //majDomLocalStorage(event)
-                console.log(quantite)
+                majDomQttPrix()
+                quantitePrixTotal()
             }
             )
         }
@@ -109,21 +103,25 @@ function quantitePrixTotal() {
 
 }
 
-/*function majDomLocalStorage(evenement) {
+function majDomLocalStorage(evenement) {
 
-    let quantite = document.querySelector(".itemQuantity")
+    let quantite = evenement.target
     let parent = quantite.closest("[data-id]")
     let id = parent.getAttribute("data-id")
     let color = parent.getAttribute("data-color")
 
     let donneTableau = [id, quantite.value, color]
 
+    localStorage.setItem(`${id}-${color}`, JSON.stringify(donneTableau))
 
-    //localStorage.setItem(`${id}-${color}`, JSON.stringify(donneTableau))
+}
 
+function majDomQttPrix() {
 
-}*/
+    let qttPrix = document.querySelector(".cart__price p")
+    qttPrix.remove()
 
+}
 
 
 
