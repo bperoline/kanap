@@ -23,10 +23,12 @@ async function init() {
                 quantitePrixTotal()
             })
         })
-
-
     }
 
+    let donneCommander = document.querySelector("#order")
+    donneCommander.addEventListener('click', (event) => {
+        recupDonnees(event)
+    })
 
 }
 
@@ -145,6 +147,115 @@ function suppLigneCommande(evenement) {
     article.remove()
 
 }
+
+function recupDonnees(evenement) {
+
+    let recupPrenom = document.querySelector("#firstName").value
+    let recupNom = document.querySelector("#lastName").value
+    let recupAdresse = document.querySelector("#address").value
+    let recupVille = document.querySelector("#city").value
+    let recupMail = document.querySelector("#email").value
+
+    console.log(recupPrenom, recupNom, recupAdresse, recupVille, recupMail)
+
+    evenement.preventDefault()
+
+    let returnPrenom = verifchainecaract(recupPrenom)
+    let returnNom = verifchainecaract(recupNom)
+    let returnAdresse = verifadresse(recupAdresse)
+    let returnVille = verifchainecaract(recupVille)
+    let returnEmail = verifemail(recupMail)
+
+
+    let pErrorMsgPrenom = document.querySelector("#firstNameErrorMsg")
+    if (returnPrenom === true) {
+        pErrorMsgPrenom.innerText = ""
+    }
+    else {
+        pErrorMsgPrenom.innerText = "Le prénom saisie n'est pas conforme"
+    }
+
+    let pErrorMsgNom = document.querySelector("#lastNameErrorMsg")
+    if (returnNom === true) {
+        pErrorMsgNom.innerText = ""
+    }
+    else {
+        pErrorMsgNom.innerText = "Le nom saisie n'est pas conforme"
+    }
+
+    let pErrorMsgAdresse = document.querySelector("#addressErrorMsg")
+    if (returnAdresse === true) {
+        pErrorMsgAdresse.innerText = ""
+    }
+    else {
+        pErrorMsgAdresse.innerText = "L'adresse saisie n'est pas conforme"
+    }
+
+    let pErrorMsgVille = document.querySelector("#cityErrorMsg")
+    if (returnVille === true) {
+        pErrorMsgVille.innerText = ""
+    }
+    else {
+        pErrorMsgVille.innerText = "La ville saisie n'est pas conforme"
+    }
+
+    let pErrorMsgMail = document.querySelector("#emailErrorMsg")
+    if (returnEmail === true) {
+        pErrorMsgMail.innerText = ""
+    }
+    else {
+        pErrorMsgMail.innerText = "L'email saisie n'est pas conforme"
+    }
+
+    if (returnPrenom && returnNom && returnAdresse && returnVille && returnEmail) {
+        const objcontact = {
+            prenom: recupPrenom,
+            nom: recupNom,
+            adresse: recupAdresse,
+            ville: recupVille,
+            email: recupMail
+        }
+
+        let tabproduit = []
+        let panier = Object.keys(localStorage)
+        let i = panier.length
+        while (i--) {
+            tabproduit.push(JSON.parse(localStorage.getItem(panier[i])))
+        }
+
+        let commande = {
+            contact: objcontact,
+            produit: tabproduit
+        }
+    }
+
+}
+
+function verifchainecaract(parametre) {
+
+    const chaineCaractRegex = /^[a-zA-Z- éèëêô]+$/
+    const resultat = chaineCaractRegex.test(parametre)
+
+    return resultat
+}
+
+function verifadresse(parametre) {
+
+    const adresseRegex = /^[a-zA-Z0-9,éèëêô .'-]{3,}$/
+    const resultat = adresseRegex.test(parametre)
+
+    return resultat
+}
+
+function verifemail(parametre) {
+
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    const resultat = emailRegex.test(parametre)
+
+    return resultat
+}
+
+
 
 
 
