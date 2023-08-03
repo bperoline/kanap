@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-
     async function init() {
 
         recuperePanier()
-
 
         window.onload = (event) => {
 
@@ -287,8 +285,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         return resultat
     }
 
-
-
     async function envoieCommande(data) {
 
         try {
@@ -302,10 +298,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 .then((reponse) => reponse.json())
                 .then((dt) => {
                     console.log(dt)
-                    localStorage.clear()
-                    localStorage.setItem("commandeID", dt.orderId)
+                    //localStorage.clear()
 
-                    document.location.href = "../html/confirmation.html"
+                    window.location = `../html/confirm.html?commandeID=${dt.orderId}`
                 })
         }
         catch (error) {
