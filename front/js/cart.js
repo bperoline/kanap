@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 .then((reponse) => reponse.json())
                 .then((dt) => {
                     console.log(dt)
-                    //localStorage.clear()
+                    localStorage.clear()
 
                     window.location = `../html/confirm.html?commandeID=${dt.orderId}`
                 })
